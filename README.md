@@ -20,12 +20,12 @@ Automated installation scripts for common development tools on Windows with Git 
 
 ## Installation
 
-### 1. Run the Installation Script
+### 1. Run the Setup Script
 
 Open Git Bash and run:
 
 ```bash
-./install-dev-tools.sh
+./setup-dev-tools.sh
 ```
 
 This will install all the tools automatically.
