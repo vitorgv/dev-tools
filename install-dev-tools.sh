@@ -280,10 +280,10 @@ command -v zip &> /dev/null && print_success "zip: Installed" || print_error "zi
 
 if command -v python3 &> /dev/null || command -v python &> /dev/null; then
     print_success "Python3: Installed"
-    if command -v python3 &> /dev/null; then
-        print_info "  └─ Version: $(python3 --version 2>&1 | cut -d' ' -f2)"
-    else
+    if command -v python &> /dev/null; then
         print_info "  └─ Version: $(python --version 2>&1 | cut -d' ' -f2)"
+    elif command -v python3 &> /dev/null; then
+        print_info "  └─ Version: $(python3 --version 2>&1 | cut -d' ' -f2)"
     fi
 else
     print_error "Python3: Not installed"
@@ -301,9 +301,21 @@ fi
 # Check SDKMAN-managed tools
 if [ -d "$HOME/.sdkman" ]; then
     source "$HOME/.sdkman/bin/sdkman-init.sh" 2>/dev/null
-    command -v java &> /dev/null && print_success "  ├─ Java: $(java -version 2>&1 | head -n 1)" || print_info "  ├─ Java: Not installed"
-    command -v mvn &> /dev/null && print_success "  ├─ Maven: $(mvn --version 2>&1 | head -n 1 | cut -d' ' -f3)" || print_info "  ├─ Maven: Not installed"
-    command -v gradle &> /dev/null && print_success "  └─ Gradle: $(gradle --version 2>&1 | grep Gradle | cut -d' ' -f2)" || print_info "  └─ Gradle: Not installed"
+    if command -v java &> /dev/null; then
+        print_success "  ├─ Java: $(java -version 2>&1 | head -n 1 | cut -d'"' -f2)"
+    else
+        print_info "  ├─ Java: Not installed"
+    fi
+    if command -v mvn &> /dev/null; then
+        print_success "  ├─ Maven: $(mvn --version 2>&1 | head -n 1 | cut -d' ' -f3)"
+    else
+        print_info "  ├─ Maven: Not installed"
+    fi
+    if command -v gradle &> /dev/null; then
+        print_success "  └─ Gradle: $(gradle --version 2>&1 | grep '^Gradle' | cut -d' ' -f2)"
+    else
+        print_info "  └─ Gradle: Not installed"
+    fi
 fi
 
 [ -d "$HOME/.nvm" ] && print_success "NVM: Installed" || print_error "NVM: Not installed"
@@ -312,7 +324,11 @@ fi
 if [ -d "$HOME/.nvm" ]; then
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" 2>/dev/null
-    command -v node &> /dev/null && print_success "  └─ Node.js: $(node --version)" || print_info "  └─ Node.js: Not installed"
+    if command -v node &> /dev/null; then
+        print_success "  └─ Node.js: $(node --version)"
+    else
+        print_info "  └─ Node.js: Not installed (run: nvm install --lts)"
+    fi
 fi
 
 echo ""
