@@ -1,8 +1,8 @@
-# Add SDKMAN Java to Windows PATH
+# Setup Windows PATH for Development Tools
 # This script must be run as Administrator
 
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "Adding SDKMAN to Windows PATH" -ForegroundColor Cyan
+Write-Host "Setup Windows PATH for Development Tools" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 

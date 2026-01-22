@@ -211,8 +211,8 @@ else
             
             echo ""
             print_info "To add SDKMAN tools to Windows PATH, run as Administrator:"
-            echo "   .\\add-sdkman-to-path.ps1  (PowerShell)"
-            echo "   add-sdkman-to-path.bat     (Command Prompt)"
+            echo "   .\\setup-windows-path.ps1  (PowerShell)"
+            echo "   setup-windows-path.bat     (Command Prompt)"
             echo ""
         else
             print_error "SDKMAN installation failed"
@@ -368,6 +368,6 @@ echo "   nvm use <version>            # Switch Node version"
 echo "   node --version               # Check Node version"
 echo ""
 print_info "To add SDKMAN tools to Windows CMD/PowerShell:"
-echo "   Run as Administrator: .\\add-sdkman-to-path.ps1"
+echo "   Run as Administrator: .\\setup-windows-path.ps1"
 echo ""
 print_success "Installation script completed!"
