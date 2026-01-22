@@ -22,13 +22,38 @@ Automated installation scripts for common development tools on Windows with Git 
 
 ### 1. Run the Setup Script
 
-Open Git Bash and run:
+Choose the appropriate script for your environment:
+
+#### Git Bash (Recommended for full feature set)
 
 ```bash
 ./setup-dev-tools.sh
 ```
 
-This will install all the tools automatically.
+This installs all tools including SDKMAN (Java, Maven, Gradle) and NVM.
+
+#### Windows Command Prompt (as Administrator)
+
+```batch
+setup-dev-tools.bat
+```
+
+This installs Python, Go, and NVM for Windows. For Java tools, see note below.
+
+#### PowerShell (as Administrator)
+
+```powershell
+.\setup-dev-tools.ps1
+```
+
+This installs Python, Go, and NVM for Windows. For Java tools, see note below.
+
+**Note:** SDKMAN (for Java, Maven, Gradle) works best in Git Bash or WSL. For native Windows CMD/PowerShell, you can install Java tools separately:
+```powershell
+choco install openjdk -y
+choco install maven -y
+choco install gradle -y
+```
 
 ### 2. Add SDKMAN to Windows PATH
 
