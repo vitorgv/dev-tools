@@ -118,10 +118,39 @@ else
                 print_success "Added SDKMAN to .bashrc"
             fi
             
-            # Add SDKMAN to PATH for Windows (cmd/PowerShell)
-            SDKMAN_PATH=$(cygpath -w "$HOME/.sdkman/candidates/java/current/bin" 2>/dev/null || echo "$HOME/.sdkman/candidates/java/current/bin")
-            print_info "To add SDKMAN Java to Windows PATH, run as Administrator:"
-            echo "   setx /M PATH \"%PATH%;%USERPROFILE%\\.sdkman\\candidates\\java\\current\\bin\""
+            # Suggest installing Java, Maven, and Gradle
+            echo ""
+            print_info "Installing recommended tools via SDKMAN..."
+            echo ""
+            
+            # Install Java
+            print_info "Installing Java..."
+            if sdk install java 2>/dev/null; then
+                print_success "Java installed successfully"
+            else
+                print_info "Java installation skipped (may already be installed)"
+            fi
+            
+            # Install Maven
+            print_info "Installing Maven..."
+            if sdk install maven 2>/dev/null; then
+                print_success "Maven installed successfully"
+            else
+                print_info "Maven installation skipped (may already be installed)"
+            fi
+            
+            # Install Gradle
+            print_info "Installing Gradle..."
+            if sdk install gradle 2>/dev/null; then
+                print_success "Gradle installed successfully"
+            else
+                print_info "Gradle installation skipped (may already be installed)"
+            fi
+            
+            echo ""
+            print_info "To add SDKMAN tools to Windows PATH, run as Administrator:"
+            echo "   .\\add-sdkman-to-path.ps1  (PowerShell)"
+            echo "   add-sdkman-to-path.bat     (Command Prompt)"
             echo ""
         else
             print_error "SDKMAN installation failed"
@@ -157,6 +186,18 @@ else
     if command -v nvm &> /dev/null; then
         print_success "NVM installed successfully"
         print_info "NVM version: $(nvm --version)"
+        
+        # Install Node.js LTS
+        echo ""
+        print_info "Installing Node.js LTS..."
+        if nvm install --lts 2>/dev/null; then
+            print_success "Node.js LTS installed successfully"
+            nvm use --lts 2>/dev/null
+            print_info "Node version: $(node --version)"
+            print_info "NPM version: $(npm --version)"
+        else
+            print_info "Node.js installation skipped"
+        fi
     else
         print_error "NVM installation failed"
     fi
@@ -175,7 +216,23 @@ echo ""
 command -v choco &> /dev/null && print_success "Chocolatey: Installed" || print_error "Chocolatey: Not installed"
 command -v zip &> /dev/null && print_success "zip: Installed" || print_error "zip: Not installed"
 [ -d "$HOME/.sdkman" ] && print_success "SDKMAN: Installed" || print_error "SDKMAN: Not installed"
+
+# Check SDKMAN-managed tools
+if [ -d "$HOME/.sdkman" ]; then
+    source "$HOME/.sdkman/bin/sdkman-init.sh" 2>/dev/null
+    command -v java &> /dev/null && print_success "  ├─ Java: $(java -version 2>&1 | head -n 1)" || print_info "  ├─ Java: Not installed"
+    command -v mvn &> /dev/null && print_success "  ├─ Maven: $(mvn --version 2>&1 | head -n 1 | cut -d' ' -f3)" || print_info "  ├─ Maven: Not installed"
+    command -v gradle &> /dev/null && print_success "  └─ Gradle: $(gradle --version 2>&1 | grep Gradle | cut -d' ' -f2)" || print_info "  └─ Gradle: Not installed"
+fi
+
 [ -d "$HOME/.nvm" ] && print_success "NVM: Installed" || print_error "NVM: Not installed"
+
+# Check NVM-managed Node.js
+if [ -d "$HOME/.nvm" ]; then
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" 2>/dev/null
+    command -v node &> /dev/null && print_success "  └─ Node.js: $(node --version)" || print_info "  └─ Node.js: Not installed"
+fi
 
 echo ""
 echo "========================================="
@@ -191,9 +248,18 @@ echo ""
 print_info "For new terminals, these tools will be available automatically."
 echo ""
 print_info "Quick start commands:"
-echo "   sdk list java          # List available Java versions"
-echo "   sdk install java       # Install latest Java"
-echo "   nvm list               # List installed Node versions"
-echo "   nvm install --lts      # Install latest LTS Node.js"
+echo "   # Java, Maven, Gradle (via SDKMAN)"
+echo "   sdk list java                # List available Java versions"
+echo "   sdk use java <version>       # Switch Java version"
+echo "   mvn --version                # Check Maven version"
+echo "   gradle --version             # Check Gradle version"
+echo ""
+echo "   # Node.js (via NVM)"
+echo "   nvm list                     # List installed Node versions"
+echo "   nvm use <version>            # Switch Node version"
+echo "   node --version               # Check Node version"
+echo ""
+print_info "To add SDKMAN tools to Windows CMD/PowerShell:"
+echo "   Run as Administrator: .\\add-sdkman-to-path.ps1"
 echo ""
 print_success "Installation script completed!"

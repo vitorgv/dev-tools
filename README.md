@@ -4,10 +4,17 @@ Automated installation scripts for common development tools on Windows with Git 
 
 ## Tools Installed
 
+### Core Package Managers
 - **Chocolatey** - Windows package manager
 - **zip** - Compression utility (required for SDKMAN)
-- **SDKMAN** - Software Development Kit Manager (for Java, Maven, Gradle, etc.)
+- **SDKMAN** - Software Development Kit Manager
 - **NVM** - Node Version Manager
+
+### Development Tools (Auto-installed)
+- **Java** - Latest LTS version via SDKMAN
+- **Maven** - Latest version via SDKMAN
+- **Gradle** - Latest version via SDKMAN
+- **Node.js** - Latest LTS version via NVM
 
 ## Installation
 
@@ -54,13 +61,27 @@ SDKMAN and NVM are automatically available in Git Bash after installation.
 ```bash
 # SDKMAN commands
 sdk list java           # List available Java versions
-sdk install java        # Install latest Java
-sdk use java 17.0.9     # Switch Java version
+sdk install java 21     # Install specific Java version
+sdk use java 21         # Switch to Java 21
+sdk current java        # Show current Java version
+
+# Maven
+mvn --version          # Check Maven installation
+mvn clean install      # Build project
+
+# Gradle
+gradle --version       # Check Gradle installation
+gradle build          # Build project
 
 # NVM commands
 nvm list               # List installed Node versions
-nvm install --lts      # Install latest LTS Node.js
-nvm use 20             # Switch Node version
+nvm install 20         # Install Node.js 20
+nvm use 20             # Switch to Node.js 20
+nvm current            # Show current Node version
+
+# Node.js
+node --version         # Check Node version
+npm --version          # Check NPM version
 ```
 
 ### Command Prompt / PowerShell
@@ -71,6 +92,8 @@ After running the PATH setup script, SDKMAN-installed tools will be available:
 java -version
 mvn -version
 gradle -version
+node -v
+npm -v
 ```
 
 ## Manual PATH Setup

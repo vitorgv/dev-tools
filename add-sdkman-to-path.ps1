@@ -76,6 +76,19 @@ Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "SDKMAN tools added to Windows PATH" -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
+Write-Host "Installed tools are now available in CMD/PowerShell:" -ForegroundColor Yellow
+
+if (Test-Path "$sdkmanCandidates\java\current\bin") {
+    Write-Host "  - java -version" -ForegroundColor Green
+}
+if (Test-Path "$sdkmanCandidates\maven\current\bin") {
+    Write-Host "  - mvn --version" -ForegroundColor Green
+}
+if (Test-Path "$sdkmanCandidates\gradle\current\bin") {
+    Write-Host "  - gradle --version" -ForegroundColor Green
+}
+
+Write-Host ""
 Write-Host "Please restart your terminal or Command Prompt for changes to take effect." -ForegroundColor Yellow
 Write-Host ""
 pause

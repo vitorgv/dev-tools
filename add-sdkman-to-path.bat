@@ -63,6 +63,11 @@ echo ========================================
 echo SDKMAN tools added to Windows PATH
 echo ========================================
 echo.
+echo Installed tools are now available in CMD/PowerShell:
+if exist "%SDKMAN_CANDIDATES%\java\current\bin" echo   - java -version
+if exist "%SDKMAN_CANDIDATES%\maven\current\bin" echo   - mvn --version
+if exist "%SDKMAN_CANDIDATES%\gradle\current\bin" echo   - gradle --version
+echo.
 echo Please restart your terminal or Command Prompt for changes to take effect.
 echo.
 pause
