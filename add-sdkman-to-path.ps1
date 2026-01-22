@@ -81,6 +81,9 @@ Write-Host "Installed tools are now available in CMD/PowerShell:" -ForegroundCol
 if (Get-Command python -ErrorAction SilentlyContinue) {
     Write-Host "  - python --version" -ForegroundColor Green
 }
+if (Get-Command go -ErrorAction SilentlyContinue) {
+    Write-Host "  - go version" -ForegroundColor Green
+}
 if (Test-Path "$sdkmanCandidates\java\current\bin") {
     Write-Host "  - java -version" -ForegroundColor Green
 }

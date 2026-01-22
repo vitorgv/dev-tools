@@ -106,7 +106,37 @@ else
 fi
 
 # ========================================
-# 4. Install SDKMAN
+# 4. Install Go (Golang) using Chocolatey
+# ========================================
+echo ""
+print_info "Checking Go installation..."
+
+if command -v go &> /dev/null; then
+    print_success "Go is already installed"
+    print_info "Go version: $(go version | cut -d' ' -f3)"
+else
+    print_info "Attempting to install Go using Chocolatey..."
+    if command -v choco &> /dev/null; then
+        print_info "This requires Administrator privileges..."
+        if choco install golang -y 2>/dev/null; then
+            print_success "Go installed successfully"
+            # Refresh environment variables
+            export PATH="$PATH:/c/Go/bin"
+            export GOPATH="$HOME/go"
+            export PATH="$PATH:$GOPATH/bin"
+            print_info "Go version: $(go version 2>&1 | cut -d' ' -f3 || echo 'Restart terminal to use Go')"
+        else
+            print_error "Failed to install Go. Please run as Administrator:"
+            echo "   choco install golang -y"
+            echo ""
+        fi
+    else
+        print_error "Chocolatey not available. Please install Chocolatey first."
+    fi
+fi
+
+# ========================================
+# 5. Install SDKMAN
 # ========================================
 echo ""
 print_info "Checking SDKMAN installation..."
@@ -191,7 +221,7 @@ else
 fi
 
 # ========================================
-# 5. Install NVM (Node Version Manager)
+# 6. Install NVM (Node Version Manager)
 # ========================================
 echo ""
 print_info "Checking NVM installation..."
@@ -259,6 +289,13 @@ else
     print_error "Python3: Not installed"
 fi
 
+if command -v go &> /dev/null; then
+    print_success "Go: Installed"
+    print_info "  └─ Version: $(go version 2>&1 | cut -d' ' -f3 | sed 's/go//')"
+else
+    print_error "Go: Not installed"
+fi
+
 [ -d "$HOME/.sdkman" ] && print_success "SDKMAN: Installed" || print_error "SDKMAN: Not installed"
 
 # Check SDKMAN-managed tools
@@ -296,6 +333,12 @@ echo "   # Python"
 echo "   python --version             # Check Python version"
 echo "   pip --version                # Check pip version"
 echo "   pip install <package>        # Install Python package"
+echo ""
+echo "   # Go"
+echo "   go version                   # Check Go version"
+echo "   go mod init <module>         # Initialize Go module"
+echo "   go build                     # Build Go project"
+echo "   go run main.go               # Run Go program"
 echo ""
 echo "   # Java, Maven, Gradle (via SDKMAN)"
 echo "   sdk list java                # List available Java versions"

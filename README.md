@@ -12,6 +12,7 @@ Automated installation scripts for common development tools on Windows with Git 
 
 ### Development Tools (Auto-installed)
 - **Python3** - Latest version via Chocolatey
+- **Go** - Latest version via Chocolatey
 - **Java** - Latest LTS version via SDKMAN
 - **Maven** - Latest version via SDKMAN
 - **Gradle** - Latest version via SDKMAN
@@ -66,6 +67,13 @@ pip --version          # Check pip version
 pip install requests   # Install package
 pip list              # List installed packages
 
+# Go commands
+go version             # Check Go version
+go mod init myapp      # Initialize Go module
+go build              # Build Go project
+go run main.go        # Run Go program
+go get <package>      # Install Go package
+
 # SDKMAN commands
 sdk list java           # List available Java versions
 sdk install java 21     # Install specific Java version
@@ -98,6 +106,7 @@ After running the PATH setup script, all development tools will be available:
 ```cmd
 python --version
 pip --version
+go version
 java -version
 mvn -version
 gradle -version
