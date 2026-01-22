@@ -210,10 +210,6 @@ else
             fi
             
             echo ""
-            print_info "To add SDKMAN tools to Windows PATH, run as Administrator:"
-            echo "   .\\configure-windows-path.ps1  (PowerShell)"
-            echo "   configure-windows-path.bat     (Command Prompt)"
-            echo ""
         else
             print_error "SDKMAN installation failed"
         fi
