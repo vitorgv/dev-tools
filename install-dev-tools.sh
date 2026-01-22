@@ -74,7 +74,39 @@ else
 fi
 
 # ========================================
-# 3. Install SDKMAN
+# 3. Install Python3 using Chocolatey
+# ========================================
+echo ""
+print_info "Checking Python3 installation..."
+
+if command -v python3 &> /dev/null || command -v python &> /dev/null; then
+    print_success "Python3 is already installed"
+    if command -v python3 &> /dev/null; then
+        print_info "Python version: $(python3 --version)"
+    else
+        print_info "Python version: $(python --version)"
+    fi
+else
+    print_info "Attempting to install Python3 using Chocolatey..."
+    if command -v choco &> /dev/null; then
+        print_info "This requires Administrator privileges..."
+        if choco install python3 -y 2>/dev/null; then
+            print_success "Python3 installed successfully"
+            # Refresh environment variables
+            export PATH="$PATH:/c/Python312:/c/Python312/Scripts"
+            print_info "Python version: $(python --version 2>&1 || echo 'Restart terminal to use Python')"
+        else
+            print_error "Failed to install Python3. Please run as Administrator:"
+            echo "   choco install python3 -y"
+            echo ""
+        fi
+    else
+        print_error "Chocolatey not available. Please install Chocolatey first."
+    fi
+fi
+
+# ========================================
+# 4. Install SDKMAN
 # ========================================
 echo ""
 print_info "Checking SDKMAN installation..."
@@ -159,7 +191,7 @@ else
 fi
 
 # ========================================
-# 4. Install NVM (Node Version Manager)
+# 5. Install NVM (Node Version Manager)
 # ========================================
 echo ""
 print_info "Checking NVM installation..."
@@ -215,6 +247,18 @@ echo ""
 # Check installations
 command -v choco &> /dev/null && print_success "Chocolatey: Installed" || print_error "Chocolatey: Not installed"
 command -v zip &> /dev/null && print_success "zip: Installed" || print_error "zip: Not installed"
+
+if command -v python3 &> /dev/null || command -v python &> /dev/null; then
+    print_success "Python3: Installed"
+    if command -v python3 &> /dev/null; then
+        print_info "  └─ Version: $(python3 --version 2>&1 | cut -d' ' -f2)"
+    else
+        print_info "  └─ Version: $(python --version 2>&1 | cut -d' ' -f2)"
+    fi
+else
+    print_error "Python3: Not installed"
+fi
+
 [ -d "$HOME/.sdkman" ] && print_success "SDKMAN: Installed" || print_error "SDKMAN: Not installed"
 
 # Check SDKMAN-managed tools
@@ -248,6 +292,11 @@ echo ""
 print_info "For new terminals, these tools will be available automatically."
 echo ""
 print_info "Quick start commands:"
+echo "   # Python"
+echo "   python --version             # Check Python version"
+echo "   pip --version                # Check pip version"
+echo "   pip install <package>        # Install Python package"
+echo ""
 echo "   # Java, Maven, Gradle (via SDKMAN)"
 echo "   sdk list java                # List available Java versions"
 echo "   sdk use java <version>       # Switch Java version"

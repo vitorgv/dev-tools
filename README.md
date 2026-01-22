@@ -11,6 +11,7 @@ Automated installation scripts for common development tools on Windows with Git 
 - **NVM** - Node Version Manager
 
 ### Development Tools (Auto-installed)
+- **Python3** - Latest version via Chocolatey
 - **Java** - Latest LTS version via SDKMAN
 - **Maven** - Latest version via SDKMAN
 - **Gradle** - Latest version via SDKMAN
@@ -59,6 +60,12 @@ After adding to PATH, restart your terminal (Git Bash, Command Prompt, or PowerS
 SDKMAN and NVM are automatically available in Git Bash after installation.
 
 ```bash
+# Python commands
+python --version        # Check Python version
+pip --version          # Check pip version
+pip install requests   # Install package
+pip list              # List installed packages
+
 # SDKMAN commands
 sdk list java           # List available Java versions
 sdk install java 21     # Install specific Java version
@@ -86,9 +93,11 @@ npm --version          # Check NPM version
 
 ### Command Prompt / PowerShell
 
-After running the PATH setup script, SDKMAN-installed tools will be available:
+After running the PATH setup script, all development tools will be available:
 
 ```cmd
+python --version
+pip --version
 java -version
 mvn -version
 gradle -version
