@@ -55,27 +55,12 @@ choco install maven -y
 choco install gradle -y
 ```
 
-### 2. Add SDKMAN to Windows PATH
-
-To use SDKMAN tools (Java, Maven, Gradle, etc.) in Command Prompt and PowerShell, you need to add them to the Windows PATH.
-
-#### Option A: Using PowerShell (Recommended)
-
-Right-click on PowerShell and select "Run as Administrator", then run:
-
+If you installed SDKMAN via Git Bash and want to use it in CMD/PowerShell, run the Windows setup script again as Administrator to add SDKMAN tools to the Windows PATH:
 ```powershell
-.\configure-windows-path.ps1
+.\setup-dev-tools.ps1
 ```
 
-#### Option B: Using Batch Script
-
-Right-click on Command Prompt and select "Run as Administrator", then run:
-
-```batch
-configure-windows-path.bat
-```
-
-### 3. Restart Your Terminal
+### 2. Restart Your Terminal
 
 After adding to PATH, restart your terminal (Git Bash, Command Prompt, or PowerShell) for changes to take effect.
 
@@ -126,7 +111,7 @@ npm --version          # Check NPM version
 
 ### Command Prompt / PowerShell
 
-After running the PATH setup script, all development tools will be available:
+After running the setup script, all development tools will be available:
 
 ```cmd
 python --version

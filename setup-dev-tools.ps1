@@ -166,9 +166,60 @@ Write-Host "  choco install openjdk -y" -ForegroundColor Gray
 Write-Host "  choco install maven -y" -ForegroundColor Gray
 Write-Host "  choco install gradle -y" -ForegroundColor Gray
 Write-Host ""
-Write-Host "Or run this script in Git Bash to use SDKMAN:" -ForegroundColor Yellow
-Write-Host "  ./setup-dev-tools.sh" -ForegroundColor Gray
+Write-Host "Or run setup-dev-tools.sh in Git Bash to use SDKMAN." -ForegroundColor Yellow
+Write-Host "Then run this script again to add SDKMAN tools to Windows PATH." -ForegroundColor Yellow
 Write-Host ""
+
+# ========================================
+# Configure Windows PATH for SDKMAN tools
+# ========================================
+$sdkmanCandidates = "$env:USERPROFILE\.sdkman\candidates"
+
+if (Test-Path $sdkmanCandidates) {
+    Write-Host "=========================================" -ForegroundColor Cyan
+    Write-Host "Configuring Windows PATH for SDKMAN tools" -ForegroundColor Cyan
+    Write-Host "=========================================" -ForegroundColor Cyan
+    Write-Host ""
+    
+    # Get current system PATH
+    $currentPath = [Environment]::GetEnvironmentVariable("Path", "Machine")
+    
+    # Function to add path if not already present
+    function Add-ToPath {
+        param (
+            [string]$newPath,
+            [string]$toolName
+        )
+        
+        if (Test-Path $newPath) {
+            if ($script:currentPath -notlike "*$newPath*") {
+                Write-Host "Adding $toolName to PATH..." -ForegroundColor Yellow
+                $script:currentPath = "$script:currentPath;$newPath"
+                [Environment]::SetEnvironmentVariable("Path", $script:currentPath, "Machine")
+                Write-Host "[OK] $toolName added to PATH" -ForegroundColor Green
+            } else {
+                Write-Host "[SKIP] $toolName already in PATH" -ForegroundColor Cyan
+            }
+        }
+    }
+    
+    # Add Java
+    Add-ToPath "$sdkmanCandidates\java\current\bin" "Java"
+    
+    # Add Maven
+    Add-ToPath "$sdkmanCandidates\maven\current\bin" "Maven"
+    
+    # Add Gradle
+    Add-ToPath "$sdkmanCandidates\gradle\current\bin" "Gradle"
+    
+    # Add Kotlin
+    Add-ToPath "$sdkmanCandidates\kotlin\current\bin" "Kotlin"
+    
+    # Add Groovy
+    Add-ToPath "$sdkmanCandidates\groovy\current\bin" "Groovy"
+    
+    Write-Host ""
+}
 
 # ========================================
 # Summary

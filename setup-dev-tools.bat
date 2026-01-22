@@ -166,9 +166,49 @@ echo   choco install openjdk -y
 echo   choco install maven -y
 echo   choco install gradle -y
 echo.
-echo Or run this script in Git Bash to use SDKMAN:
-echo   ./setup-dev-tools.sh
+echo Or run setup-dev-tools.sh in Git Bash to use SDKMAN.
+echo Then run this script again to add SDKMAN tools to Windows PATH.
 echo.
+
+REM ========================================
+REM Configure Windows PATH for SDKMAN tools
+REM ========================================
+set SDKMAN_CANDIDATES=%USERPROFILE%\.sdkman\candidates
+
+if exist "%SDKMAN_CANDIDATES%" (
+    echo =========================================
+    echo Configuring Windows PATH for SDKMAN tools
+    echo =========================================
+    echo.
+    
+    REM Get current PATH
+    for /f "tokens=2*" %%a in ('reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v Path 2^>nul') do set CURRENT_PATH=%%b
+    
+    REM Add Java if installed
+    if exist "%SDKMAN_CANDIDATES%\java\current\bin" (
+        echo Adding Java to PATH...
+        setx /M PATH "%CURRENT_PATH%;%SDKMAN_CANDIDATES%\java\current\bin" >nul
+        echo [OK] Java added to PATH
+    )
+    
+    REM Add Maven if installed
+    if exist "%SDKMAN_CANDIDATES%\maven\current\bin" (
+        echo Adding Maven to PATH...
+        for /f "tokens=2*" %%a in ('reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v Path 2^>nul') do set CURRENT_PATH=%%b
+        setx /M PATH "%CURRENT_PATH%;%SDKMAN_CANDIDATES%\maven\current\bin" >nul
+        echo [OK] Maven added to PATH
+    )
+    
+    REM Add Gradle if installed
+    if exist "%SDKMAN_CANDIDATES%\gradle\current\bin" (
+        echo Adding Gradle to PATH...
+        for /f "tokens=2*" %%a in ('reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v Path 2^>nul') do set CURRENT_PATH=%%b
+        setx /M PATH "%CURRENT_PATH%;%SDKMAN_CANDIDATES%\gradle\current\bin" >nul
+        echo [OK] Gradle added to PATH
+    )
+    
+    echo.
+)
 
 REM ========================================
 REM Summary
