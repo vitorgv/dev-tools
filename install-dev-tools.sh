@@ -83,6 +83,15 @@ if [ -d "$HOME/.sdkman" ]; then
     print_success "SDKMAN is already installed"
     source "$HOME/.sdkman/bin/sdkman-init.sh"
     print_info "SDKMAN version: $(sdk version | head -n 2)"
+    
+    # Ensure SDKMAN is in .bashrc
+    if ! grep -q "sdkman-init.sh" "$HOME/.bashrc" 2>/dev/null; then
+        echo "" >> "$HOME/.bashrc"
+        echo "# SDKMAN initialization" >> "$HOME/.bashrc"
+        echo 'export SDKMAN_DIR="$HOME/.sdkman"' >> "$HOME/.bashrc"
+        echo '[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"' >> "$HOME/.bashrc"
+        print_success "Added SDKMAN to .bashrc"
+    fi
 else
     print_info "Installing SDKMAN..."
     
@@ -99,6 +108,21 @@ else
             print_success "SDKMAN installed successfully"
             source "$HOME/.sdkman/bin/sdkman-init.sh"
             print_info "SDKMAN version: $(sdk version | head -n 2)"
+            
+            # Add SDKMAN to .bashrc if not already present
+            if ! grep -q "sdkman-init.sh" "$HOME/.bashrc" 2>/dev/null; then
+                echo "" >> "$HOME/.bashrc"
+                echo "# SDKMAN initialization" >> "$HOME/.bashrc"
+                echo 'export SDKMAN_DIR="$HOME/.sdkman"' >> "$HOME/.bashrc"
+                echo '[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"' >> "$HOME/.bashrc"
+                print_success "Added SDKMAN to .bashrc"
+            fi
+            
+            # Add SDKMAN to PATH for Windows (cmd/PowerShell)
+            SDKMAN_PATH=$(cygpath -w "$HOME/.sdkman/candidates/java/current/bin" 2>/dev/null || echo "$HOME/.sdkman/candidates/java/current/bin")
+            print_info "To add SDKMAN Java to Windows PATH, run as Administrator:"
+            echo "   setx /M PATH \"%PATH%;%USERPROFILE%\\.sdkman\\candidates\\java\\current\\bin\""
+            echo ""
         else
             print_error "SDKMAN installation failed"
         fi
