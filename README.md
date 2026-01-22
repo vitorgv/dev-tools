@@ -152,6 +152,40 @@ source ~/.bashrc
 - Adding system PATH variables requires Administrator privileges
 - Run scripts as Administrator when prompted
 
+## Uninstallation
+
+To remove all installed development tools, run the appropriate uninstall script:
+
+### Git Bash
+
+```bash
+./uninstall-dev-tools.sh
+```
+
+### Command Prompt (as Administrator)
+
+```batch
+uninstall-dev-tools.bat
+```
+
+### PowerShell (as Administrator)
+
+```powershell
+.\uninstall-dev-tools.ps1
+```
+
+**Note:** The uninstall scripts will:
+- Remove SDKMAN and all Java tools (Java, Maven, Gradle)
+- Remove NVM and Node.js
+- Uninstall Chocolatey packages (Python3, Go, zip)
+- Clean up PATH environment variables
+- Remove configuration from shell profiles
+
+To completely remove Chocolatey itself (optional), run as Administrator:
+```powershell
+Remove-Item C:\ProgramData\chocolatey -Recurse -Force
+```
+
 ## License
 
 MIT
