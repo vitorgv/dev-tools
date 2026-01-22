@@ -1,8 +1,8 @@
-# Setup Windows PATH for Development Tools
+# Configure Windows PATH for Development Tools
 # This script must be run as Administrator
 
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "Setup Windows PATH for Development Tools" -ForegroundColor Cyan
+Write-Host "Configure Windows PATH for Development Tools" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 

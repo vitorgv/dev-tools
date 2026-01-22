@@ -39,7 +39,7 @@ To use SDKMAN tools (Java, Maven, Gradle, etc.) in Command Prompt and PowerShell
 Right-click on PowerShell and select "Run as Administrator", then run:
 
 ```powershell
-.\setup-windows-path.ps1
+.\configure-windows-path.ps1
 ```
 
 #### Option B: Using Batch Script
@@ -47,7 +47,7 @@ Right-click on PowerShell and select "Run as Administrator", then run:
 Right-click on Command Prompt and select "Run as Administrator", then run:
 
 ```batch
-setup-windows-path.bat
+configure-windows-path.bat
 ```
 
 ### 3. Restart Your Terminal

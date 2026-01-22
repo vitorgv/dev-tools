@@ -1,9 +1,9 @@
 @echo off
-REM Setup Windows PATH for Development Tools
+REM Configure Windows PATH for Development Tools
 REM This script must be run as Administrator
 
 echo ========================================
-echo Setup Windows PATH for Development Tools
+echo Configure Windows PATH for Development Tools
 echo ========================================
 echo.
 
